@@ -1,0 +1,12 @@
+miot:
+  target: dev
+  outputs:
+    dev:
+      type: postgres
+      host: db
+      user: postgres
+      password: postgres
+      dbname: miot
+      port: 5432
+      schema: public
+      threads: 1 
