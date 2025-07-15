@@ -1,0 +1,124 @@
+[
+    {
+        "label": "os",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "os",
+        "description": "os",
+        "detail": "os",
+        "documentation": {}
+    },
+    {
+        "label": "json",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "json",
+        "description": "json",
+        "detail": "json",
+        "documentation": {}
+    },
+    {
+        "label": "psycopg2",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "psycopg2",
+        "description": "psycopg2",
+        "detail": "psycopg2",
+        "documentation": {}
+    },
+    {
+        "label": "load_dotenv",
+        "importPath": "dotenv",
+        "description": "dotenv",
+        "isExtraImport": true,
+        "detail": "dotenv",
+        "documentation": {}
+    },
+    {
+        "label": "load_dotenv",
+        "importPath": "dotenv",
+        "description": "dotenv",
+        "isExtraImport": true,
+        "detail": "dotenv",
+        "documentation": {}
+    },
+    {
+        "label": "datetime",
+        "importPath": "datetime",
+        "description": "datetime",
+        "isExtraImport": true,
+        "detail": "datetime",
+        "documentation": {}
+    },
+    {
+        "label": "TelegramClient",
+        "importPath": "telethon.sync",
+        "description": "telethon.sync",
+        "isExtraImport": true,
+        "detail": "telethon.sync",
+        "documentation": {}
+    },
+    {
+        "label": "conn",
+        "kind": 5,
+        "importPath": "etl.load_to_postgres",
+        "description": "etl.load_to_postgres",
+        "peekOfCode": "conn = psycopg2.connect(\n    host=os.getenv(\"POSTGRES_HOST\"),\n    dbname=os.getenv(\"POSTGRES_DB\"),\n    user=os.getenv(\"POSTGRES_USER\"),\n    password=os.getenv(\"POSTGRES_PASSWORD\"),\n    port=os.getenv(\"POSTGRES_PORT\")\n)\ncursor = conn.cursor()\ncursor.execute(\"\"\"\nCREATE TABLE IF NOT EXISTS raw_telegram_messages (",
+        "detail": "etl.load_to_postgres",
+        "documentation": {}
+    },
+    {
+        "label": "cursor",
+        "kind": 5,
+        "importPath": "etl.load_to_postgres",
+        "description": "etl.load_to_postgres",
+        "peekOfCode": "cursor = conn.cursor()\ncursor.execute(\"\"\"\nCREATE TABLE IF NOT EXISTS raw_telegram_messages (\n    id BIGINT PRIMARY KEY,\n    text TEXT,\n    date TIMESTAMP,\n    has_media BOOLEAN,\n    media_type TEXT\n);\n\"\"\")",
+        "detail": "etl.load_to_postgres",
+        "documentation": {}
+    },
+    {
+        "label": "base_dir",
+        "kind": 5,
+        "importPath": "etl.load_to_postgres",
+        "description": "etl.load_to_postgres",
+        "peekOfCode": "base_dir = \"data/raw/telegram_messages\"\nfor date_folder in os.listdir(base_dir):\n    full_path = os.path.join(base_dir, date_folder)\n    for file in os.listdir(full_path):\n        with open(os.path.join(full_path, file)) as f:\n            messages = json.load(f)\n            for msg in messages:\n                try:\n                    cursor.execute(\"\"\"\n                        INSERT INTO raw_telegram_messages (id, text, date, has_media, media_type)",
+        "detail": "etl.load_to_postgres",
+        "documentation": {}
+    },
+    {
+        "label": "api_id",
+        "kind": 5,
+        "importPath": "etl.scrape_telegram",
+        "description": "etl.scrape_telegram",
+        "peekOfCode": "api_id = int(os.getenv(\"TELEGRAM_API_ID\"))\napi_hash = os.getenv(\"TELEGRAM_API_HASH\")\nchannels = [\n    \"https://t.me/lobelia4cosmetics\",\n    \"https://t.me/tikvahpharma\",\n    \"https://t.me/lobelia4cosmetics\"  # Add more if needed\n]\nclient = TelegramClient(\"session\", api_id, api_hash)\nclient.start()\nfor channel in channels:",
+        "detail": "etl.scrape_telegram",
+        "documentation": {}
+    },
+    {
+        "label": "api_hash",
+        "kind": 5,
+        "importPath": "etl.scrape_telegram",
+        "description": "etl.scrape_telegram",
+        "peekOfCode": "api_hash = os.getenv(\"TELEGRAM_API_HASH\")\nchannels = [\n    \"https://t.me/lobelia4cosmetics\",\n    \"https://t.me/tikvahpharma\",\n    \"https://t.me/lobelia4cosmetics\"  # Add more if needed\n]\nclient = TelegramClient(\"session\", api_id, api_hash)\nclient.start()\nfor channel in channels:\n    messages_data = []",
+        "detail": "etl.scrape_telegram",
+        "documentation": {}
+    },
+    {
+        "label": "channels",
+        "kind": 5,
+        "importPath": "etl.scrape_telegram",
+        "description": "etl.scrape_telegram",
+        "peekOfCode": "channels = [\n    \"https://t.me/lobelia4cosmetics\",\n    \"https://t.me/tikvahpharma\",\n    \"https://t.me/lobelia4cosmetics\"  # Add more if needed\n]\nclient = TelegramClient(\"session\", api_id, api_hash)\nclient.start()\nfor channel in channels:\n    messages_data = []\n    today = datetime.today().strftime('%Y-%m-%d')",
+        "detail": "etl.scrape_telegram",
+        "documentation": {}
+    },
+    {
+        "label": "client",
+        "kind": 5,
+        "importPath": "etl.scrape_telegram",
+        "description": "etl.scrape_telegram",
+        "peekOfCode": "client = TelegramClient(\"session\", api_id, api_hash)\nclient.start()\nfor channel in channels:\n    messages_data = []\n    today = datetime.today().strftime('%Y-%m-%d')\n    name = channel.split(\"/\")[-1]\n    for message in client.iter_messages(channel, limit=100):  # limit for testing\n        messages_data.append({\n            \"id\": message.id,\n            \"text\": message.text,",
+        "detail": "etl.scrape_telegram",
+        "documentation": {}
+    }
+]
