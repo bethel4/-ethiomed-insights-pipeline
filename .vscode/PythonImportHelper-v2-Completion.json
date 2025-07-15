@@ -43,11 +43,36 @@
         "documentation": {}
     },
     {
+        "label": "load_dotenv",
+        "importPath": "dotenv",
+        "description": "dotenv",
+        "isExtraImport": true,
+        "detail": "dotenv",
+        "documentation": {}
+    },
+    {
+        "label": "logging",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "logging",
+        "description": "logging",
+        "detail": "logging",
+        "documentation": {}
+    },
+    {
         "label": "datetime",
         "importPath": "datetime",
         "description": "datetime",
         "isExtraImport": true,
         "detail": "datetime",
+        "documentation": {}
+    },
+    {
+        "label": "TelegramClient",
+        "importPath": "telethon.sync",
+        "description": "telethon.sync",
+        "isExtraImport": true,
+        "detail": "telethon.sync",
         "documentation": {}
     },
     {
@@ -90,7 +115,7 @@
         "kind": 5,
         "importPath": "etl.scrape_telegram",
         "description": "etl.scrape_telegram",
-        "peekOfCode": "api_id = int(os.getenv(\"TELEGRAM_API_ID\"))\napi_hash = os.getenv(\"TELEGRAM_API_HASH\")\nchannels = [\n    \"https://t.me/lobelia4cosmetics\",\n    \"https://t.me/tikvahpharma\",\n    \"https://t.me/lobelia4cosmetics\"  # Add more if needed\n]\nclient = TelegramClient(\"session\", api_id, api_hash)\nclient.start()\nfor channel in channels:",
+        "peekOfCode": "api_id = int(os.getenv(\"TELEGRAM_API_ID\"))\napi_hash = os.getenv(\"TELEGRAM_API_HASH\")\nchannels = [\n    \"https://t.me/lobelia4cosmetics\",\n    \"https://t.me/tikvahpharma\",\n    \"https://t.me/lobelia4cosmetics\"  # Add more if needed\n]\nclient = TelegramClient(\"session\", api_id, api_hash)\nclient.start()\ntotal_messages = 0",
         "detail": "etl.scrape_telegram",
         "documentation": {}
     },
@@ -99,7 +124,7 @@
         "kind": 5,
         "importPath": "etl.scrape_telegram",
         "description": "etl.scrape_telegram",
-        "peekOfCode": "api_hash = os.getenv(\"TELEGRAM_API_HASH\")\nchannels = [\n    \"https://t.me/lobelia4cosmetics\",\n    \"https://t.me/tikvahpharma\",\n    \"https://t.me/lobelia4cosmetics\"  # Add more if needed\n]\nclient = TelegramClient(\"session\", api_id, api_hash)\nclient.start()\nfor channel in channels:\n    messages_data = []",
+        "peekOfCode": "api_hash = os.getenv(\"TELEGRAM_API_HASH\")\nchannels = [\n    \"https://t.me/lobelia4cosmetics\",\n    \"https://t.me/tikvahpharma\",\n    \"https://t.me/lobelia4cosmetics\"  # Add more if needed\n]\nclient = TelegramClient(\"session\", api_id, api_hash)\nclient.start()\ntotal_messages = 0\ntotal_images = 0",
         "detail": "etl.scrape_telegram",
         "documentation": {}
     },
@@ -108,7 +133,7 @@
         "kind": 5,
         "importPath": "etl.scrape_telegram",
         "description": "etl.scrape_telegram",
-        "peekOfCode": "channels = [\n    \"https://t.me/lobelia4cosmetics\",\n    \"https://t.me/tikvahpharma\",\n    \"https://t.me/lobelia4cosmetics\"  # Add more if needed\n]\nclient = TelegramClient(\"session\", api_id, api_hash)\nclient.start()\nfor channel in channels:\n    messages_data = []\n    today = datetime.today().strftime('%Y-%m-%d')",
+        "peekOfCode": "channels = [\n    \"https://t.me/lobelia4cosmetics\",\n    \"https://t.me/tikvahpharma\",\n    \"https://t.me/lobelia4cosmetics\"  # Add more if needed\n]\nclient = TelegramClient(\"session\", api_id, api_hash)\nclient.start()\ntotal_messages = 0\ntotal_images = 0\ntotal_errors = 0",
         "detail": "etl.scrape_telegram",
         "documentation": {}
     },
@@ -117,8 +142,62 @@
         "kind": 5,
         "importPath": "etl.scrape_telegram",
         "description": "etl.scrape_telegram",
-        "peekOfCode": "client = TelegramClient(\"session\", api_id, api_hash)\nclient.start()\nfor channel in channels:\n    messages_data = []\n    today = datetime.today().strftime('%Y-%m-%d')\n    name = channel.split(\"/\")[-1]\n    for message in client.iter_messages(channel, limit=100):  # limit for testing\n        messages_data.append({\n            \"id\": message.id,\n            \"text\": message.text,",
+        "peekOfCode": "client = TelegramClient(\"session\", api_id, api_hash)\nclient.start()\ntotal_messages = 0\ntotal_images = 0\ntotal_errors = 0\nfor channel in channels:\n    try:\n        logging.info(f\"Scraping channel: {channel}\")\n        messages_data = []\n        today = datetime.today().strftime('%Y-%m-%d')",
         "detail": "etl.scrape_telegram",
+        "documentation": {}
+    },
+    {
+        "label": "total_messages",
+        "kind": 5,
+        "importPath": "etl.scrape_telegram",
+        "description": "etl.scrape_telegram",
+        "peekOfCode": "total_messages = 0\ntotal_images = 0\ntotal_errors = 0\nfor channel in channels:\n    try:\n        logging.info(f\"Scraping channel: {channel}\")\n        messages_data = []\n        today = datetime.today().strftime('%Y-%m-%d')\n        name = channel.split(\"/\")[-1]\n        for message in client.iter_messages(channel, limit=100):",
+        "detail": "etl.scrape_telegram",
+        "documentation": {}
+    },
+    {
+        "label": "total_images",
+        "kind": 5,
+        "importPath": "etl.scrape_telegram",
+        "description": "etl.scrape_telegram",
+        "peekOfCode": "total_images = 0\ntotal_errors = 0\nfor channel in channels:\n    try:\n        logging.info(f\"Scraping channel: {channel}\")\n        messages_data = []\n        today = datetime.today().strftime('%Y-%m-%d')\n        name = channel.split(\"/\")[-1]\n        for message in client.iter_messages(channel, limit=100):\n            msg_dict = {",
+        "detail": "etl.scrape_telegram",
+        "documentation": {}
+    },
+    {
+        "label": "total_errors",
+        "kind": 5,
+        "importPath": "etl.scrape_telegram",
+        "description": "etl.scrape_telegram",
+        "peekOfCode": "total_errors = 0\nfor channel in channels:\n    try:\n        logging.info(f\"Scraping channel: {channel}\")\n        messages_data = []\n        today = datetime.today().strftime('%Y-%m-%d')\n        name = channel.split(\"/\")[-1]\n        for message in client.iter_messages(channel, limit=100):\n            msg_dict = {\n                \"id\": message.id,",
+        "detail": "etl.scrape_telegram",
+        "documentation": {}
+    },
+    {
+        "label": "api_id",
+        "kind": 5,
+        "importPath": "etl.test_telegram_connection",
+        "description": "etl.test_telegram_connection",
+        "peekOfCode": "api_id = int(os.getenv(\"TELEGRAM_API_ID\"))\napi_hash = os.getenv(\"TELEGRAM_API_HASH\")\nclient = TelegramClient(\"session\", api_id, api_hash)\nclient.start()",
+        "detail": "etl.test_telegram_connection",
+        "documentation": {}
+    },
+    {
+        "label": "api_hash",
+        "kind": 5,
+        "importPath": "etl.test_telegram_connection",
+        "description": "etl.test_telegram_connection",
+        "peekOfCode": "api_hash = os.getenv(\"TELEGRAM_API_HASH\")\nclient = TelegramClient(\"session\", api_id, api_hash)\nclient.start()",
+        "detail": "etl.test_telegram_connection",
+        "documentation": {}
+    },
+    {
+        "label": "client",
+        "kind": 5,
+        "importPath": "etl.test_telegram_connection",
+        "description": "etl.test_telegram_connection",
+        "peekOfCode": "client = TelegramClient(\"session\", api_id, api_hash)\nclient.start()",
+        "detail": "etl.test_telegram_connection",
         "documentation": {}
     }
 ]
