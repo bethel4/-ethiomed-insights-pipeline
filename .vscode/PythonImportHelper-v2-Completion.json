@@ -51,12 +51,11 @@
         "documentation": {}
     },
     {
-        "label": "logging",
-        "kind": 6,
+        "label": "load_dotenv",
+        "importPath": "dotenv",
+        "description": "dotenv",
         "isExtraImport": true,
-        "importPath": "logging",
-        "description": "logging",
-        "detail": "logging",
+        "detail": "dotenv",
         "documentation": {}
     },
     {
@@ -65,6 +64,31 @@
         "description": "datetime",
         "isExtraImport": true,
         "detail": "datetime",
+        "documentation": {}
+    },
+    {
+        "label": "datetime",
+        "importPath": "datetime",
+        "description": "datetime",
+        "isExtraImport": true,
+        "detail": "datetime",
+        "documentation": {}
+    },
+    {
+        "label": "YOLO",
+        "importPath": "ultralytics",
+        "description": "ultralytics",
+        "isExtraImport": true,
+        "detail": "ultralytics",
+        "documentation": {}
+    },
+    {
+        "label": "logging",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "logging",
+        "description": "logging",
+        "detail": "logging",
         "documentation": {}
     },
     {
@@ -108,6 +132,42 @@
         "description": "etl.load_to_postgres",
         "peekOfCode": "base_dir = \"data/raw/telegram_messages\"\nfor date_folder in os.listdir(base_dir):\n    full_path = os.path.join(base_dir, date_folder)\n    for file in os.listdir(full_path):\n        with open(os.path.join(full_path, file)) as f:\n            messages = json.load(f)\n            for msg in messages:\n                try:\n                    cursor.execute(\"\"\"\n                        INSERT INTO raw_telegram_messages (id, text, date, has_media, media_type)",
         "detail": "etl.load_to_postgres",
+        "documentation": {}
+    },
+    {
+        "label": "model",
+        "kind": 5,
+        "importPath": "etl.run_yolo_detection",
+        "description": "etl.run_yolo_detection",
+        "peekOfCode": "model = YOLO('yolov8n.pt')  # Use nano model for speed\n# Connect to database\nconn = psycopg2.connect(\n    host=os.getenv(\"POSTGRES_HOST\"),\n    dbname=os.getenv(\"POSTGRES_DB\"),\n    user=os.getenv(\"POSTGRES_USER\"),\n    password=os.getenv(\"POSTGRES_PASSWORD\"),\n    port=os.getenv(\"POSTGRES_PORT\")\n)\ncursor = conn.cursor()",
+        "detail": "etl.run_yolo_detection",
+        "documentation": {}
+    },
+    {
+        "label": "conn",
+        "kind": 5,
+        "importPath": "etl.run_yolo_detection",
+        "description": "etl.run_yolo_detection",
+        "peekOfCode": "conn = psycopg2.connect(\n    host=os.getenv(\"POSTGRES_HOST\"),\n    dbname=os.getenv(\"POSTGRES_DB\"),\n    user=os.getenv(\"POSTGRES_USER\"),\n    password=os.getenv(\"POSTGRES_PASSWORD\"),\n    port=os.getenv(\"POSTGRES_PORT\")\n)\ncursor = conn.cursor()\n# Create table for detection results\ncursor.execute(\"\"\"",
+        "detail": "etl.run_yolo_detection",
+        "documentation": {}
+    },
+    {
+        "label": "cursor",
+        "kind": 5,
+        "importPath": "etl.run_yolo_detection",
+        "description": "etl.run_yolo_detection",
+        "peekOfCode": "cursor = conn.cursor()\n# Create table for detection results\ncursor.execute(\"\"\"\nCREATE TABLE IF NOT EXISTS fct_image_detections (\n    id SERIAL PRIMARY KEY,\n    message_id BIGINT REFERENCES raw_telegram_messages(id),\n    detected_object_class TEXT,\n    confidence_score FLOAT,\n    bbox_x1 FLOAT,\n    bbox_y1 FLOAT,",
+        "detail": "etl.run_yolo_detection",
+        "documentation": {}
+    },
+    {
+        "label": "messages_with_images",
+        "kind": 5,
+        "importPath": "etl.run_yolo_detection",
+        "description": "etl.run_yolo_detection",
+        "peekOfCode": "messages_with_images = cursor.fetchall()\nfor message_id, image_path in messages_with_images:\n    if os.path.exists(image_path):\n        try:\n            # Run YOLO detection\n            results = model(image_path)\n            for result in results:\n                boxes = result.boxes\n                if boxes is not None:\n                    for box in boxes:",
+        "detail": "etl.run_yolo_detection",
         "documentation": {}
     },
     {
