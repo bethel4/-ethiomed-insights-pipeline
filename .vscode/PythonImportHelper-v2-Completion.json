@@ -1,20 +1,43 @@
 [
     {
+        "label": "List",
+        "importPath": "typing",
+        "description": "typing",
+        "isExtraImport": true,
+        "detail": "typing",
+        "documentation": {}
+    },
+    {
+        "label": "List",
+        "importPath": "typing",
+        "description": "typing",
+        "isExtraImport": true,
+        "detail": "typing",
+        "documentation": {}
+    },
+    {
+        "label": "List",
+        "importPath": "typing",
+        "description": "typing",
+        "isExtraImport": true,
+        "detail": "typing",
+        "documentation": {}
+    },
+    {
+        "label": "Optional",
+        "importPath": "typing",
+        "description": "typing",
+        "isExtraImport": true,
+        "detail": "typing",
+        "documentation": {}
+    },
+    {
         "label": "os",
         "kind": 6,
         "isExtraImport": true,
         "importPath": "os",
         "description": "os",
         "detail": "os",
-        "documentation": {}
-    },
-    {
-        "label": "json",
-        "kind": 6,
-        "isExtraImport": true,
-        "importPath": "json",
-        "description": "json",
-        "detail": "json",
         "documentation": {}
     },
     {
@@ -27,11 +50,11 @@
         "documentation": {}
     },
     {
-        "label": "load_dotenv",
-        "importPath": "dotenv",
-        "description": "dotenv",
+        "label": "RealDictCursor",
+        "importPath": "psycopg2.extras",
+        "description": "psycopg2.extras",
         "isExtraImport": true,
-        "detail": "dotenv",
+        "detail": "psycopg2.extras",
         "documentation": {}
     },
     {
@@ -59,7 +82,47 @@
         "documentation": {}
     },
     {
-        "label": "datetime",
+        "label": "load_dotenv",
+        "importPath": "dotenv",
+        "description": "dotenv",
+        "isExtraImport": true,
+        "detail": "dotenv",
+        "documentation": {}
+    },
+    {
+        "label": "load_dotenv",
+        "importPath": "dotenv",
+        "description": "dotenv",
+        "isExtraImport": true,
+        "detail": "dotenv",
+        "documentation": {}
+    },
+    {
+        "label": "FastAPI",
+        "importPath": "fastapi",
+        "description": "fastapi",
+        "isExtraImport": true,
+        "detail": "fastapi",
+        "documentation": {}
+    },
+    {
+        "label": "HTTPException",
+        "importPath": "fastapi",
+        "description": "fastapi",
+        "isExtraImport": true,
+        "detail": "fastapi",
+        "documentation": {}
+    },
+    {
+        "label": "BaseModel",
+        "importPath": "pydantic",
+        "description": "pydantic",
+        "isExtraImport": true,
+        "detail": "pydantic",
+        "documentation": {}
+    },
+    {
+        "label": "date",
         "importPath": "datetime",
         "description": "datetime",
         "isExtraImport": true,
@@ -72,6 +135,23 @@
         "description": "datetime",
         "isExtraImport": true,
         "detail": "datetime",
+        "documentation": {}
+    },
+    {
+        "label": "datetime",
+        "importPath": "datetime",
+        "description": "datetime",
+        "isExtraImport": true,
+        "detail": "datetime",
+        "documentation": {}
+    },
+    {
+        "label": "json",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "json",
+        "description": "json",
+        "detail": "json",
         "documentation": {}
     },
     {
@@ -105,6 +185,141 @@
         "description": "telethon.sync",
         "isExtraImport": true,
         "detail": "telethon.sync",
+        "documentation": {}
+    },
+    {
+        "label": "get_top_products",
+        "kind": 2,
+        "importPath": "api.crud",
+        "description": "api.crud",
+        "peekOfCode": "def get_top_products(limit: int = 10) -> List[ProductAnalytics]:\n    conn = get_db_connection()\n    cursor = conn.cursor()\n    query = \"\"\"\n    WITH product_mentions AS (\n        SELECT \n            CASE \n                WHEN text ILIKE '%paracetamol%' THEN 'Paracetamol'\n                WHEN text ILIKE '%vitamin%' THEN 'Vitamin'\n                WHEN text ILIKE '%iron%' THEN 'Iron'",
+        "detail": "api.crud",
+        "documentation": {}
+    },
+    {
+        "label": "get_channel_activity",
+        "kind": 2,
+        "importPath": "api.crud",
+        "description": "api.crud",
+        "peekOfCode": "def get_channel_activity(channel_name: str) -> ChannelActivity:\n    conn = get_db_connection()\n    cursor = conn.cursor()\n    query = \"\"\"\n    SELECT \n        %s as channel_name,\n        COUNT(*) as message_count,\n        COUNT(CASE WHEN has_media THEN 1 END) as image_count,\n        MAX(date::date) as last_activity\n    FROM raw_telegram_messages",
+        "detail": "api.crud",
+        "documentation": {}
+    },
+    {
+        "label": "search_messages",
+        "kind": 2,
+        "importPath": "api.crud",
+        "description": "api.crud",
+        "peekOfCode": "def search_messages(query: str, limit: int = 10) -> List[MessageSearch]:\n    conn = get_db_connection()\n    cursor = conn.cursor()\n    search_query = \"\"\"\n    SELECT \n        m.id as message_id,\n        m.text,\n        'lobelia4cosmetics' as channel,\n        m.date::date as date,\n        m.has_media,",
+        "detail": "api.crud",
+        "documentation": {}
+    },
+    {
+        "label": "get_db_connection",
+        "kind": 2,
+        "importPath": "api.database",
+        "description": "api.database",
+        "peekOfCode": "def get_db_connection():\n    return psycopg2.connect(\n        host=os.getenv(\"POSTGRES_HOST\"),\n        dbname=os.getenv(\"POSTGRES_DB\"),\n        user=os.getenv(\"POSTGRES_USER\"),\n        password=os.getenv(\"POSTGRES_PASSWORD\"),\n        port=os.getenv(\"POSTGRES_PORT\"),\n        cursor_factory=RealDictCursor\n    )",
+        "detail": "api.database",
+        "documentation": {}
+    },
+    {
+        "label": "read_root",
+        "kind": 2,
+        "importPath": "api.main",
+        "description": "api.main",
+        "peekOfCode": "def read_root():\n    return {\"message\": \"Ethiomed Insights API - Welcome!\"}\n@app.get(\"/api/reports/top-products\", response_model=TopProductsResponse)\ndef get_top_products(limit: int = 10):\n    \"\"\"\n    Get the most frequently mentioned medical products across all channels.\n    \"\"\"\n    try:\n        products = crud.get_top_products(limit)\n        return TopProductsResponse(",
+        "detail": "api.main",
+        "documentation": {}
+    },
+    {
+        "label": "get_top_products",
+        "kind": 2,
+        "importPath": "api.main",
+        "description": "api.main",
+        "peekOfCode": "def get_top_products(limit: int = 10):\n    \"\"\"\n    Get the most frequently mentioned medical products across all channels.\n    \"\"\"\n    try:\n        products = crud.get_top_products(limit)\n        return TopProductsResponse(\n            products=products,\n            total_count=len(products)\n        )",
+        "detail": "api.main",
+        "documentation": {}
+    },
+    {
+        "label": "get_channel_activity",
+        "kind": 2,
+        "importPath": "api.main",
+        "description": "api.main",
+        "peekOfCode": "def get_channel_activity(channel_name: str):\n    \"\"\"\n    Get posting activity for a specific channel.\n    \"\"\"\n    try:\n        return crud.get_channel_activity(channel_name)\n    except Exception as e:\n        raise HTTPException(status_code=500, detail=str(e))\n@app.get(\"/api/search/messages\", response_model=List[MessageSearch])\ndef search_messages(query: str, limit: int = 10):",
+        "detail": "api.main",
+        "documentation": {}
+    },
+    {
+        "label": "search_messages",
+        "kind": 2,
+        "importPath": "api.main",
+        "description": "api.main",
+        "peekOfCode": "def search_messages(query: str, limit: int = 10):\n    \"\"\"\n    Search for messages containing a specific keyword.\n    \"\"\"\n    try:\n        return crud.search_messages(query, limit)\n    except Exception as e:\n        raise HTTPException(status_code=500, detail=str(e))\n@app.get(\"/api/health\")\ndef health_check():",
+        "detail": "api.main",
+        "documentation": {}
+    },
+    {
+        "label": "health_check",
+        "kind": 2,
+        "importPath": "api.main",
+        "description": "api.main",
+        "peekOfCode": "def health_check():\n    \"\"\"\n    Health check endpoint.\n    \"\"\"\n    return {\"status\": \"healthy\", \"service\": \"Ethiomed Insights API\"}\nif __name__ == \"__main__\":\n    import uvicorn\n    uvicorn.run(app, host=\"0.0.0.0\", port=8000)",
+        "detail": "api.main",
+        "documentation": {}
+    },
+    {
+        "label": "app",
+        "kind": 5,
+        "importPath": "api.main",
+        "description": "api.main",
+        "peekOfCode": "app = FastAPI(\n    title=\"Ethiomed Insights API\",\n    description=\"Analytical API for Ethiopian medical business data from Telegram\",\n    version=\"1.0.0\"\n)\n@app.get(\"/\")\ndef read_root():\n    return {\"message\": \"Ethiomed Insights API - Welcome!\"}\n@app.get(\"/api/reports/top-products\", response_model=TopProductsResponse)\ndef get_top_products(limit: int = 10):",
+        "detail": "api.main",
+        "documentation": {}
+    },
+    {
+        "label": "ProductAnalytics",
+        "kind": 6,
+        "importPath": "api.schemas",
+        "description": "api.schemas",
+        "peekOfCode": "class ProductAnalytics(BaseModel):\n    product_name: str\n    mention_count: int\n    avg_price: Optional[float]\n    channels: List[str]\nclass ChannelActivity(BaseModel):\n    channel_name: str\n    message_count: int\n    image_count: int\n    last_activity: date",
+        "detail": "api.schemas",
+        "documentation": {}
+    },
+    {
+        "label": "ChannelActivity",
+        "kind": 6,
+        "importPath": "api.schemas",
+        "description": "api.schemas",
+        "peekOfCode": "class ChannelActivity(BaseModel):\n    channel_name: str\n    message_count: int\n    image_count: int\n    last_activity: date\nclass MessageSearch(BaseModel):\n    message_id: int\n    text: str\n    channel: str\n    date: date",
+        "detail": "api.schemas",
+        "documentation": {}
+    },
+    {
+        "label": "MessageSearch",
+        "kind": 6,
+        "importPath": "api.schemas",
+        "description": "api.schemas",
+        "peekOfCode": "class MessageSearch(BaseModel):\n    message_id: int\n    text: str\n    channel: str\n    date: date\n    has_media: bool\n    detected_objects: List[str]\nclass TopProductsResponse(BaseModel):\n    products: List[ProductAnalytics]\n    total_count: int",
+        "detail": "api.schemas",
+        "documentation": {}
+    },
+    {
+        "label": "TopProductsResponse",
+        "kind": 6,
+        "importPath": "api.schemas",
+        "description": "api.schemas",
+        "peekOfCode": "class TopProductsResponse(BaseModel):\n    products: List[ProductAnalytics]\n    total_count: int\nclass ChannelActivityResponse(BaseModel):\n    activities: List[ChannelActivity]\n    total_channels: int",
+        "detail": "api.schemas",
+        "documentation": {}
+    },
+    {
+        "label": "ChannelActivityResponse",
+        "kind": 6,
+        "importPath": "api.schemas",
+        "description": "api.schemas",
+        "peekOfCode": "class ChannelActivityResponse(BaseModel):\n    activities: List[ChannelActivity]\n    total_channels: int",
+        "detail": "api.schemas",
         "documentation": {}
     },
     {

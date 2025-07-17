@@ -7,6 +7,11 @@ A modern ELT pipeline for scraping, enriching, and analyzing Ethiopian medical b
 ```
 miot-pipeline/
 ├── api/
+│   ├── main.py
+│   ├── database.py
+│   ├── models.py
+│   ├── schemas.py
+│   └── crud.py
 ├── data/
 │   └── raw/
 ├── dbt_project/
@@ -46,6 +51,23 @@ miot-pipeline/
    dbt run
    dbt test
    ```
+8. Start the FastAPI server:
+   ```bash
+   uvicorn api.main:app --reload
+   ```
+   or, if using Docker Compose, ensure the API service is included and run:
+   ```bash
+   docker-compose up -d
+   ```
+
+## API Usage
+- Visit [http://localhost:8000/docs](http://localhost:8000/docs) for interactive API documentation.
+
+### Example Endpoints
+- **Health Check:** `GET /api/health`
+- **Top Products:** `GET /api/reports/top-products?limit=5`
+- **Channel Activity:** `GET /api/channels/{channel_name}/activity`
+- **Search Messages:** `GET /api/search/messages?query=vitamin&limit=5`
 
 ## Pipeline Diagram
 ```mermaid
@@ -56,12 +78,13 @@ flowchart TD
     D -->|dbt| E[Mart Model\nfct_messages]
     C -->|YOLO| F[Detection Table\nfct_image_detections]
     F -->|dbt| G[Enriched Mart\nfct_enriched_messages]
+    G -->|FastAPI| H[Analytical API]
 ```
 
 ## Known Issues / TODOs
 - Dependency conflicts may occur with numpy/decorator/tensorflow; see pip warnings.
 - Add more dbt tests and documentation.
-- Add FastAPI endpoints for analytics (Task 4).
+- Add more FastAPI endpoints for analytics.
 - Add Dagster orchestration (Task 5).
 
 ## Contact
