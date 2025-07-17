@@ -32,6 +32,30 @@
         "documentation": {}
     },
     {
+        "label": "Dict",
+        "importPath": "typing",
+        "description": "typing",
+        "isExtraImport": true,
+        "detail": "typing",
+        "documentation": {}
+    },
+    {
+        "label": "Dict",
+        "importPath": "typing",
+        "description": "typing",
+        "isExtraImport": true,
+        "detail": "typing",
+        "documentation": {}
+    },
+    {
+        "label": "Dict",
+        "importPath": "typing",
+        "description": "typing",
+        "isExtraImport": true,
+        "detail": "typing",
+        "documentation": {}
+    },
+    {
         "label": "os",
         "kind": 6,
         "isExtraImport": true,
@@ -185,6 +209,63 @@
         "description": "telethon.sync",
         "isExtraImport": true,
         "detail": "telethon.sync",
+        "documentation": {}
+    },
+    {
+        "label": "graph",
+        "importPath": "dagster",
+        "description": "dagster",
+        "isExtraImport": true,
+        "detail": "dagster",
+        "documentation": {}
+    },
+    {
+        "label": "op",
+        "importPath": "dagster",
+        "description": "dagster",
+        "isExtraImport": true,
+        "detail": "dagster",
+        "documentation": {}
+    },
+    {
+        "label": "op",
+        "importPath": "dagster",
+        "description": "dagster",
+        "isExtraImport": true,
+        "detail": "dagster",
+        "documentation": {}
+    },
+    {
+        "label": "op",
+        "importPath": "dagster",
+        "description": "dagster",
+        "isExtraImport": true,
+        "detail": "dagster",
+        "documentation": {}
+    },
+    {
+        "label": "ScheduleDefinition",
+        "importPath": "dagster",
+        "description": "dagster",
+        "isExtraImport": true,
+        "detail": "dagster",
+        "documentation": {}
+    },
+    {
+        "label": "DefaultScheduleStatus",
+        "importPath": "dagster",
+        "description": "dagster",
+        "isExtraImport": true,
+        "detail": "dagster",
+        "documentation": {}
+    },
+    {
+        "label": "subprocess",
+        "kind": 6,
+        "isExtraImport": true,
+        "importPath": "subprocess",
+        "description": "subprocess",
+        "detail": "subprocess",
         "documentation": {}
     },
     {
@@ -473,6 +554,60 @@
         "description": "etl.test_telegram_connection",
         "peekOfCode": "client = TelegramClient(\"session\", api_id, api_hash)\nclient.start()",
         "detail": "etl.test_telegram_connection",
+        "documentation": {}
+    },
+    {
+        "label": "ethiomed_pipeline_graph",
+        "kind": 2,
+        "importPath": "orchestration.jobs.ethiomed_pipeline",
+        "description": "orchestration.jobs.ethiomed_pipeline",
+        "peekOfCode": "def ethiomed_pipeline_graph():\n    telegram_result = scrape_telegram_data()\n    postgres_result = load_to_postgres(telegram_result)\n    yolo_result = run_yolo_detection(postgres_result)\n    dbt_result = run_dbt_transformations(yolo_result)\n    return dbt_result\nethiomed_pipeline_job = ethiomed_pipeline_graph.to_job(\n    name=\"ethiomed_pipeline\",\n    description=\"Complete pipeline for Ethiomed data processing\"\n)",
+        "detail": "orchestration.jobs.ethiomed_pipeline",
+        "documentation": {}
+    },
+    {
+        "label": "ethiomed_pipeline_job",
+        "kind": 5,
+        "importPath": "orchestration.jobs.ethiomed_pipeline",
+        "description": "orchestration.jobs.ethiomed_pipeline",
+        "peekOfCode": "ethiomed_pipeline_job = ethiomed_pipeline_graph.to_job(\n    name=\"ethiomed_pipeline\",\n    description=\"Complete pipeline for Ethiomed data processing\"\n)",
+        "detail": "orchestration.jobs.ethiomed_pipeline",
+        "documentation": {}
+    },
+    {
+        "label": "run_dbt_transformations",
+        "kind": 2,
+        "importPath": "orchestration.ops.dbt_ops",
+        "description": "orchestration.ops.dbt_ops",
+        "peekOfCode": "def run_dbt_transformations(context, yolo_result: Dict) -> Dict:\n    if yolo_result.get(\"status\") != \"success\":\n        context.log.warning(\"Skipping dbt transformations due to YOLO detection failure\")\n        return {\n            \"status\": \"skipped\",\n            \"message\": \"Skipped due to YOLO detection failure\"\n        }\n    try:\n        dbt_dir = os.path.join(os.getcwd(), \"dbt_project\")\n        result = subprocess.run(",
+        "detail": "orchestration.ops.dbt_ops",
+        "documentation": {}
+    },
+    {
+        "label": "load_to_postgres",
+        "kind": 2,
+        "importPath": "orchestration.ops.postgres_ops",
+        "description": "orchestration.ops.postgres_ops",
+        "peekOfCode": "def load_to_postgres(context, telegram_result: Dict) -> Dict:\n    if telegram_result.get(\"status\") != \"success\":\n        context.log.warning(\"Skipping Postgres load due to Telegram scraping failure\")\n        return {\n            \"status\": \"skipped\",\n            \"message\": \"Skipped due to Telegram scraping failure\"\n        }\n    try:\n        result = subprocess.run(\n            [\"python3\", \"etl/load_to_postgres.py\"],",
+        "detail": "orchestration.ops.postgres_ops",
+        "documentation": {}
+    },
+    {
+        "label": "run_yolo_detection",
+        "kind": 2,
+        "importPath": "orchestration.ops.yolo_ops",
+        "description": "orchestration.ops.yolo_ops",
+        "peekOfCode": "def run_yolo_detection(context, postgres_result: Dict) -> Dict:\n    if postgres_result.get(\"status\") != \"success\":\n        context.log.warning(\"Skipping YOLO detection due to Postgres loading failure\")\n        return {\n            \"status\": \"skipped\",\n            \"message\": \"Skipped due to Postgres loading failure\"\n        }\n    try:\n        result = subprocess.run(\n            [\"python3\", \"etl/run_yolo_detection.py\"],",
+        "detail": "orchestration.ops.yolo_ops",
+        "documentation": {}
+    },
+    {
+        "label": "daily_ethiomed_schedule",
+        "kind": 5,
+        "importPath": "orchestration.schedules.daily_schedule",
+        "description": "orchestration.schedules.daily_schedule",
+        "peekOfCode": "daily_ethiomed_schedule = ScheduleDefinition(\n    job=ethiomed_pipeline_job,\n    cron_schedule=\"0 6 * * *\",  # Every day at 6 AM UTC\n    name=\"daily_ethiomed_schedule\",\n    description=\"Run the Ethiomed pipeline daily at 6 AM UTC\",\n    default_status=DefaultScheduleStatus.STOPPED  # Start stopped, enable manually\n)",
+        "detail": "orchestration.schedules.daily_schedule",
         "documentation": {}
     }
 ]
