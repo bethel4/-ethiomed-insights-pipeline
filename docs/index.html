@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ethiomed Insights Pipeline Documentation</title>
+  <link href="https://fonts.googleapis.com/css?family=Roboto:400,700&display=swap" rel="stylesheet">
+  <style>
+    body { font-family: 'Roboto', Arial, sans-serif; background: #f8f9fa; color: #222; margin: 0; padding: 0; }
+    .container { max-width: 900px; margin: 40px auto; background: #fff; border-radius: 8px; box-shadow: 0 2px 8px #0001; padding: 40px; }
+    h1, h2, h3 { color: #1a237e; }
+    h1 { border-bottom: 2px solid #e3e3e3; padding-bottom: 10px; }
+    pre, code { background: #f4f4f4; border-radius: 4px; padding: 2px 6px; }
+    pre { padding: 12px; overflow-x: auto; }
+    ul, ol { margin-left: 1.5em; }
+    .section { margin-bottom: 2.5em; }
+    .mermaid { background: #f4f4f4; border-radius: 6px; padding: 16px; margin: 20px 0; }
+    .tag { display: inline-block; background: #e3e7fd; color: #1a237e; border-radius: 3px; padding: 2px 8px; margin-right: 6px; font-size: 0.95em; }
+    table { border-collapse: collapse; width: 100%; margin: 1em 0; }
+    th, td { border: 1px solid #e3e3e3; padding: 8px; text-align: left; }
+    th { background: #f0f4ff; }
+    .footer { text-align: center; color: #888; margin-top: 40px; font-size: 0.95em; }
+    @media (max-width: 600px) { .container { padding: 10px; } }
+  </style>
+  <script type="module">
+    import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10.9.0/dist/mermaid.esm.min.mjs';
+    mermaid.initialize({ startOnLoad: true });
+  </script>
+</head>
+<body>
+  <div class="container">
+    <h1>Ethiomed Insights Pipeline</h1>
+    <div class="section">
+      <h2>Project Overview</h2>
+      <p>
+        Ethiomed Insights Pipeline is a modern end-to-end ELT solution for scraping, enriching, and analyzing Ethiopian medical business data from Telegram channels. It leverages <span class="tag">Telethon</span> for data ingestion, <span class="tag">YOLOv8</span> for image enrichment, <span class="tag">dbt</span> for data modeling, <span class="tag">FastAPI</span> for analytics, and <span class="tag">Dagster</span> for orchestration.
+      </p>
+    </div>
+    <div class="section">
+      <h2>Pipeline Architecture</h2>
+      <div class="mermaid">
+        flowchart TD
+          A["Telegram Channels"] -->|"Telethon Scraper"| B["Raw JSON Files<br/>data/raw/telegram_messages/"]
+          B -->|"Python ETL"| C["PostgreSQL<br/>raw_telegram_messages"]
+          C -->|"dbt Staging"| D["stg_telegram_messages"]
+          C -->|"YOLO Detection"| E["image_detections"]
+          D -->|"dbt Marts"| F["fct_messages"]
+          E -->|"dbt Integration"| G["fct_enriched_messages"]
+          F -->|"FastAPI"| H["Analytical API"]
+          G -->|"FastAPI"| H
+          I["Dagster Orchestration"] -->|"Schedule & Monitor"| A
+          I -->|"Coordinate"| B
+          I -->|"Manage"| C
+          I -->|"Execute"| E
+          I -->|"Run"| F
+          I -->|"Deploy"| H
+      </div>
+    </div>
+    <div class="section">
+      <h2>Setup & Usage</h2>
+      <ol>
+        <li><b>Clone the repository:</b><br><code>git clone &lt;repository-url&gt;</code></li>
+        <li><b>Configure environment:</b><br>
+          <code>cp .env.example .env</code> and edit with your Telegram and Postgres credentials.
+        </li>
+        <li><b>Start infrastructure:</b><br><code>docker-compose up -d</code></li>
+        <li><b>Run the pipeline manually:</b>
+          <pre># Scrape Telegram
+docker-compose exec app python etl/scrape_telegram.py
+# Load to Postgres
+docker-compose exec app python etl/load_to_postgres.py
+# YOLO enrichment
+docker-compose exec app python etl/run_yolo_detection.py
+# dbt transformations
+cd dbt_project
+dbt run
+dbt test
+# Start API
+uvicorn api.main:app --reload</pre>
+        </li>
+        <li><b>Orchestrate with Dagster (recommended):</b>
+          <pre>dagster dev</pre>
+          <p>Access <a href="http://localhost:3000" target="_blank">Dagster UI</a> to launch and monitor the pipeline.</p>
+        </li>
+      </ol>
+    </div>
+    <div class="section">
+      <h2>API Documentation</h2>
+      <p>Interactive docs: <a href="http://localhost:8000/docs" target="_blank">http://localhost:8000/docs</a></p>
+      <table>
+        <tr><th>Endpoint</th><th>Description</th></tr>
+        <tr><td><code>GET /api/health</code></td><td>Health check</td></tr>
+        <tr><td><code>GET /api/reports/top-products?limit=5</code></td><td>Top products by mention</td></tr>
+        <tr><td><code>GET /api/channels/{channel_name}/activity</code></td><td>Channel activity analysis</td></tr>
+        <tr><td><code>GET /api/search/messages?query=vitamin&amp;limit=5</code></td><td>Search messages</td></tr>
+        <tr><td><code>GET /api/detections/stats</code></td><td>Detection statistics</td></tr>
+        <tr><td><code>GET /api/detections/search?object=medicine&amp;confidence=0.7</code></td><td>Search by detected object</td></tr>
+      </table>
+    </div>
+    <div class="section">
+      <h2>Technology Stack</h2>
+      <ul>
+        <li><b>Data Ingestion:</b> Telethon (Telegram API)</li>
+        <li><b>Data Storage:</b> PostgreSQL</li>
+        <li><b>Data Processing:</b> Python, pandas</li>
+        <li><b>Data Modeling:</b> dbt</li>
+        <li><b>ML Enrichment:</b> YOLOv8</li>
+        <li><b>API Framework:</b> FastAPI</li>
+        <li><b>Orchestration:</b> Dagster</li>
+        <li><b>Containerization:</b> Docker & Docker Compose</li>
+        <li><b>Monitoring:</b> Dagster UI, logs</li>
+      </ul>
+    </div>
+    <div class="section">
+      <h2>Data Models</h2>
+      <ul>
+        <li><b>Raw:</b> <code>raw_telegram_messages</code>, <code>image_detections</code></li>
+        <li><b>Staging:</b> <code>stg_telegram_messages</code>, <code>stg_image_detections</code></li>
+        <li><b>Mart:</b> <code>fct_messages</code>, <code>fct_enriched_messages</code></li>
+      </ul>
+    </div>
+    <div class="section">
+      <h2>Configuration</h2>
+      <table>
+        <tr><th>Variable</th><th>Description</th></tr>
+        <tr><td><code>TELEGRAM_API_ID</code></td><td>Telegram API ID</td></tr>
+        <tr><td><code>TELEGRAM_API_HASH</code></td><td>Telegram API Hash</td></tr>
+        <tr><td><code>TELEGRAM_PHONE</code></td><td>Telegram phone number</td></tr>
+        <tr><td><code>POSTGRES_URI</code></td><td>PostgreSQL connection string</td></tr>
+        <tr><td><code>CHANNEL_NAMES</code></td><td>Comma-separated channel names</td></tr>
+        <tr><td><code>SCRAPE_LIMIT</code></td><td>Max messages to scrape</td></tr>
+        <tr><td><code>DETECTION_CONFIDENCE</code></td><td>YOLO detection threshold</td></tr>
+      </table>
+    </div>
+    <div class="section">
+      <h2>Monitoring & Troubleshooting</h2>
+      <ul>
+        <li><b>Dagster UI:</b> Real-time monitoring, logs, scheduling</li>
+        <li><b>Logs:</b> <code>logs/scrape_telegram.log</code>, Docker logs, API logs</li>
+        <li><b>Common issues:</b> Telegram auth, DB connection, YOLO dependencies, Docker restarts</li>
+      </ul>
+      <pre># Check service status
+docker-compose ps
+# View logs
+docker-compose logs -f [service_name]
+# Test DB connection
+docker-compose exec app python -c "from api.database import engine; print(engine.execute('SELECT 1').fetchone())"
+# Test Telegram connection
+python etl/test_telegram_connection.py</pre>
+    </div>
+    <div class="section">
+      <h2>Future Enhancements</h2>
+      <ul>
+        <li>Real-time streaming (Kafka)</li>
+        <li>Advanced analytics (Superset)</li>
+        <li>ML model deployment</li>
+        <li>Multi-language support</li>
+        <li>Enhanced data quality monitoring</li>
+        <li>Performance tuning</li>
+      </ul>
+    </div>
+    <div class="footer">
+      Ethiomed Insights Pipeline &copy; 2024 &mdash; Documentation generated by AI
+    </div>
+  </div>
+</body>
+</html> 
